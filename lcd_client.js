@@ -1,3 +1,4 @@
+const { stat } = require('fs');
 const http = require('http')
 const url = 'http://localhost:80/';
 
@@ -7,24 +8,24 @@ lcd.beginSync();
 
 var status;
 
-lcd.printLineSync(0, 'Uptime:');
-lcd.printLineSync(1, "Requesting...");
+lcd.printLineSync(0, "Requesting...");
 
+while(true) {
+    updateStatus();
 
-setInterval(updateLCD, 1000);
-
-async function updateLCD() {
-    getStatus();
-    if (status) {
-        lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
-    } 
-    else {
+    if (!status) {
         lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
+        lcd.printLineSync(0, 'Status:');
         lcd.printLineSync(1, "Offline");
     }
-    //TODO: increment clock, display on LCD
+
+    statusToDisplay = {
+        Uptime: new Date(status.uptime).toISOString().slice(11,19)
+    }
+    for (let property in statusDisplay) {
+        lcd.printLineSync(0, property + ': ');
+        lcd.printLineSync(1, statusDisplay[property]);
+    }
 }
 
 /*
@@ -65,7 +66,7 @@ function postStatus() {
 }
 */
 
-function getStatus() {
+function updateStatus() {
     http.get(url, (res) => {
         let data = '';
 
@@ -82,5 +83,6 @@ function getStatus() {
 
         }).on("error", (err) => {
             console.log("Error: ", err.message);
+            status = null;
         });
 }
