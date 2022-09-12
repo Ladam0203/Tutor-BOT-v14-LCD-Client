@@ -10,22 +10,51 @@ var status;
 lcd.printLineSync(0, 'Uptime:');
 lcd.printLineSync(1, "Requesting...");
 
+while (true) {
+    getStatus();
 
+    if (!status)
+    {
+        setTimeout(() => {
+            lcd.clearSync();
+            lcd.printLineSync(0, 'Status: ');
+            lcd.printLineSync(1, "Offline");
+        }, 1000)
+        continue;
+    }
+
+    //parse status into displayable fields
+    let statusDisplay = {
+        Uptime: new Date(status.uptime).toISOString().slice(11,19)
+    }
+
+    for (property in statusDisplay) {
+        setTimeout(() => {
+            lcd.printLineSync(0, property + ': ');
+            lcd.printLineSync(1, statusDisplay[property]);
+        }, 1000)
+    }
+}
+
+/*
 setInterval(updateLCD, 1000);
 
 async function updateLCD() {
-    getStatus();
-    if (status) {
-        lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
-    } 
-    else {
+    await getStatus();
+
+    if (!status)
+    {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
     }
-    //TODO: increment clock, display on LCD
+
+    if (status) {
+        lcd.printLineSync(0, 'Uptime: ');
+        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
+    } 
 }
+*/
 
 /*
 function postStatus() {
@@ -65,7 +94,7 @@ function postStatus() {
 }
 */
 
-function getStatus() {
+async function getStatus() {
     http.get(url, (res) => {
         let data = '';
 
