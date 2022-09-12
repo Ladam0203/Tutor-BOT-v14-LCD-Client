@@ -18,7 +18,7 @@ async function updateLCD() {
     getStatus();
     if (status) {
         lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, msToHHMMSS(status.uptime));
+        lcd.printLineSync(1, new Date(status.uptime).toISOString());
     } 
     else {
         lcd.clearSync();
@@ -84,13 +84,4 @@ function getStatus() {
         }).on("error", (err) => {
             console.log("Error: ", err.message);
         });
-}
-
-function msToHHMMSS(milis) {
-    return String.format("%02d:%02d:%02d", 
-    TimeUnit.MILLISECONDS.toHours(millis),
-    TimeUnit.MILLISECONDS.toMinutes(millis) -  
-    TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)), // The change is in this line
-    TimeUnit.MILLISECONDS.toSeconds(millis) - 
-    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 }
