@@ -6,10 +6,9 @@ const lcd = new LCD( 1, 0x27, 16, 2 );
 lcd.beginSync();
 
 var status;
-var clock = 0;
 
 lcd.printLineSync(0, 'Uptime:');
-lcd.printLineSync(1, clock);
+lcd.printLineSync(1, "Requesting...");
 
 
 setInterval(updateLCD, 1000);
@@ -18,7 +17,7 @@ async function updateLCD() {
     getStatus();
     if (status) {
         lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString());
+        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
     } 
     else {
         lcd.clearSync();
