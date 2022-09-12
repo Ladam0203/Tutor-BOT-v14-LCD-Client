@@ -17,7 +17,7 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 async function updateLCD() {
-    getStatus();
+    await getStatus();
     if (status) {
         lcd.printLineSync(0, 'Uptime: ');
         lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
@@ -28,7 +28,7 @@ async function updateLCD() {
         lcd.printLineSync(1, "Offline");
     }
 
-    delay(10000);
+    await delay(1000);
     updateLCD();
 }
 
