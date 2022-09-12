@@ -67,6 +67,7 @@ function postStatus() {
 */
 
 function getStatus() {
+    let status;
     http.get(url, (res) => {
         let data = '';
 
@@ -78,12 +79,13 @@ function getStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             console.log("Status received: " + data);
-            return JSON.parse(data);
+            status = JSON.parse(data);
         });
 
         }).on("error", (err) => {
             console.log("Error: ", err.message);
         });
+    return status;
 }
 
 function msToHHMMSS(milis) {
