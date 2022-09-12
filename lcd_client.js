@@ -80,7 +80,7 @@ function updateStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             status = JSON.parse(data);
-            //console.log("Status received: " + data);
+            console.log("Status received: " + data);
         });
 
         }).on("error", (err) => {
