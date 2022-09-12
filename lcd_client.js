@@ -1,6 +1,10 @@
 const http = require('http')
 const url = 'http://localhost:80/';
 
+const delay = millis => new Promise((resolve, reject) => {
+    setTimeout(_ => resolve(), millis)
+  });
+
 const LCD = require('raspberrypi-liquid-crystal');
 const lcd = new LCD( 1, 0x27, 16, 2 );
 lcd.beginSync();
@@ -16,11 +20,10 @@ while (true) {
     if (!status)
     {
         console.log("No status");
-        setTimeout(() => {
-            lcd.clearSync();
-            lcd.printLineSync(0, 'Status: ');
-            lcd.printLineSync(1, "Offline");
-        }, 10000)
+        lcd.clearSync();
+        lcd.printLineSync(0, 'Status: ');
+        lcd.printLineSync(1, "Offline");
+        delay(1000);
         continue;
     }
 
@@ -31,12 +34,11 @@ while (true) {
     }
 
     for (property in statusDisplay) {
-        setTimeout(() => {
-            console.log(property);
-            console.log(statusDisplay[property]);
-            lcd.printLineSync(0, property + ': ');
-            lcd.printLineSync(1, statusDisplay[property]);
-        }, 10000)
+        console.log(property);
+        console.log("No status");
+        lcd.printLineSync(0, property + ': ');
+        lcd.printLineSync(1, statusDisplay[property]);
+        delay(1000);
     }
 }
 
