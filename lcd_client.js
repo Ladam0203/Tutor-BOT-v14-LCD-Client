@@ -20,7 +20,7 @@ while (true) {
 }
 
 async function updateLCD() {
-    await getStatus();
+    getStatus();
     console.log(status);
 
     /*
