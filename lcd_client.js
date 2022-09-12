@@ -14,21 +14,7 @@ var status;
 lcd.printLineSync(0, 'Uptime:');
 lcd.printLineSync(1, "Requesting...");
 
-while (true) {
-    getStatus();
-    if (status) {
-        lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
-    } 
-    else {
-        lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
-        lcd.printLineSync(1, "Offline");
-    }
-    delay(1000);
-}
-
-setInterval(updateLCD, 1000);
+updateLCD();
 
 async function updateLCD() {
     getStatus();
@@ -41,7 +27,9 @@ async function updateLCD() {
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
     }
-    //TODO: increment clock, display on LCD
+
+    delay(10000);
+    updateLCD();
 }
 
 /*
