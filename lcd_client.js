@@ -27,7 +27,7 @@ async function updateLCD() {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
-        delay(10000);
+        delay(1000);
         return;
     }
 
@@ -39,10 +39,10 @@ async function updateLCD() {
 
     for (property in statusDisplay) {
         console.log(property);
-        console.log("No status");
+        console.log(statusDisplay[property]);
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, statusDisplay[property]);
-        delay(10000);
+        delay(1000);
     }
 }
 
