@@ -11,12 +11,13 @@ var status;
 lcd.printLineSync(0, "Requesting...");
 
 while(true) {
-    updateStatus();
+    await updateStatus();
 
     if (!status) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status:');
         lcd.printLineSync(1, "Offline");
+        setTimeout(1000);
         continue;
     }
 
