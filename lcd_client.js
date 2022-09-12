@@ -18,15 +18,13 @@ updateLCD();
 
 async function updateLCD() {
     await getStatus();
-    if (status) {
-        lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
-    } 
-    else {
+    if (!status) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
-    }
+    } 
+    lcd.printLineSync(0, 'Uptime: ');
+    lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
 
     await delay(1000);
     updateLCD();
