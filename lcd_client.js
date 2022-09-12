@@ -25,6 +25,7 @@ while(true) {
     for (let property in statusDisplay) {
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, statusDisplay[property]);
+        setTimeout(1000);
     }
 }
 
