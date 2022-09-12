@@ -36,6 +36,7 @@ async function updateLCD() {
     for (property in parsedStatus) {
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, parsedStatus[property]);
+        await delay(1000);
     }
 
     await delay(1000);
