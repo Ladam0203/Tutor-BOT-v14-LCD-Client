@@ -37,7 +37,7 @@ async function updateLCD() {
         lcd.clearSync();
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, parsedStatus[property]);
-        await delay(1000);
+        await delay(1500);
     }
 
     await delay(1000);
