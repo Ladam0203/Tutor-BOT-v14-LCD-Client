@@ -15,7 +15,11 @@ lcd.printLineSync(0, 'Uptime:');
 lcd.printLineSync(1, "Requesting...");
 
 while (true) {
-    getStatus();
+    updateLCD();
+}
+
+async function updateLCD() {
+    await getStatus();
 
     if (!status)
     {
@@ -23,8 +27,8 @@ while (true) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
-        delay(1000);
-        continue;
+        delay(10000);
+        return;
     }
 
     console.log("Status received");
@@ -38,29 +42,10 @@ while (true) {
         console.log("No status");
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, statusDisplay[property]);
-        delay(1000);
+        delay(10000);
     }
 }
 
-/*
-setInterval(updateLCD, 1000);
-
-async function updateLCD() {
-    await getStatus();
-
-    if (!status)
-    {
-        lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
-        lcd.printLineSync(1, "Offline");
-    }
-
-    if (status) {
-        lcd.printLineSync(0, 'Uptime: ');
-        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
-    } 
-}
-*/
 
 /*
 function postStatus() {
