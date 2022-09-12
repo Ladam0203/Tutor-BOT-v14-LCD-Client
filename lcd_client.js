@@ -6,6 +6,7 @@ const LCD = require('raspberrypi-liquid-crystal');
 const lcd = new LCD( 1, 0x27, 16, 2 );
 lcd.beginSync();
 
+var status;
 var clock = 0;
 
 lcd.printLineSync(0, 'Uptime:');
@@ -15,7 +16,7 @@ lcd.printLineSync(1, clock);
 setInterval(updateLCD, 1000);
 
 async function updateLCD() {
-    let status = getStatus();
+    getStatus();
     if (status) {
         lcd.printLineSync(0, 'Uptime: ');
         lcd.printLineSync(1, msToHHMMSS(status.uptime));
@@ -67,7 +68,6 @@ function postStatus() {
 */
 
 function getStatus() {
-    let status;
     http.get(url, (res) => {
         let data = '';
 
@@ -85,7 +85,6 @@ function getStatus() {
         }).on("error", (err) => {
             console.log("Error: ", err.message);
         });
-    return status;
 }
 
 function msToHHMMSS(milis) {
