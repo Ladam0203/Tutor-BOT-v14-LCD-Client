@@ -17,7 +17,7 @@ while(true) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status:');
         lcd.printLineSync(1, "Offline");
-        setTimeout(1000);
+        wait(1000);
         continue;
     }
 
@@ -27,7 +27,7 @@ while(true) {
     for (let property in statusDisplay) {
         lcd.printLineSync(0, property + ': ');
         lcd.printLineSync(1, statusDisplay[property]);
-        setTimeout(1000);
+        wait(1000);
     }
 }
 
@@ -88,4 +88,12 @@ function updateStatus() {
             console.log("Error: ", err.message);
             status = null;
         });
+}
+
+var wait = (ms) => {
+    const start = Date.now();
+    let now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
 }
