@@ -1,4 +1,3 @@
-const { stat } = require('fs');
 const http = require('http')
 const url = 'http://localhost:80/';
 
@@ -78,8 +77,8 @@ function getStatus() {
 
         // called when the complete response is received.
         res.on('end', () => {
-            console.log("Status received: " + data);
             status = JSON.parse(data);
+            console.log("Status received: " + data);
         });
 
         }).on("error", (err) => {
