@@ -16,11 +16,14 @@ lcd.printLineSync(1, "Requesting...");
 
 while (true) {
     updateLCD();
+    delay(1000);
 }
 
 async function updateLCD() {
     await getStatus();
+    console.log(status);
 
+    /*
     if (!status)
     {
         console.log("No status");
@@ -44,6 +47,7 @@ async function updateLCD() {
         lcd.printLineSync(1, statusDisplay[property]);
         delay(1000);
     }
+    */
 }
 
 
