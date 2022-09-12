@@ -11,7 +11,7 @@ var status;
 lcd.printLineSync(0, "Requesting...");
 
 while(true) {
-    await updateStatus();
+    updateStatus();
 
     if (!status) {
         lcd.clearSync();
