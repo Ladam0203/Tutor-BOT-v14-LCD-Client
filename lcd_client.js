@@ -20,7 +20,7 @@ while (true) {
             lcd.clearSync();
             lcd.printLineSync(0, 'Status: ');
             lcd.printLineSync(1, "Offline");
-        }, 1000)
+        }, 10000)
         continue;
     }
 
@@ -36,7 +36,7 @@ while (true) {
             console.log(statusDisplay[property]);
             lcd.printLineSync(0, property + ': ');
             lcd.printLineSync(1, statusDisplay[property]);
-        }, 1000)
+        }, 10000)
     }
 }
 
