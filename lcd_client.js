@@ -17,6 +17,7 @@ while(true) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status:');
         lcd.printLineSync(1, "Offline");
+        return;
     }
 
     statusToDisplay = {
