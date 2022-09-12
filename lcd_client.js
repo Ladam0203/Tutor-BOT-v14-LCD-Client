@@ -15,6 +15,7 @@ while (true) {
 
     if (!status)
     {
+        console.log("No status");
         setTimeout(() => {
             lcd.clearSync();
             lcd.printLineSync(0, 'Status: ');
@@ -23,6 +24,7 @@ while (true) {
         continue;
     }
 
+    console.log("Status received");
     //parse status into displayable fields
     let statusDisplay = {
         Uptime: new Date(status.uptime).toISOString().slice(11,19)
@@ -30,6 +32,8 @@ while (true) {
 
     for (property in statusDisplay) {
         setTimeout(() => {
+            console.log(property);
+            console.log(statusDisplay[property]);
             lcd.printLineSync(0, property + ': ');
             lcd.printLineSync(1, statusDisplay[property]);
         }, 1000)
