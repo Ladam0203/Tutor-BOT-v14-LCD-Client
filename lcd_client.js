@@ -1,10 +1,6 @@
 const http = require('http')
 const url = 'http://localhost:80/';
 
-const delay = millis => new Promise((resolve, reject) => {
-    setTimeout(_ => resolve(), millis)
-  });
-
 const LCD = require('raspberrypi-liquid-crystal');
 const lcd = new LCD( 1, 0x27, 16, 2 );
 lcd.beginSync();
@@ -14,42 +10,21 @@ var status;
 lcd.printLineSync(0, 'Uptime:');
 lcd.printLineSync(1, "Requesting...");
 
-while (true) {
-    updateLCD();
-    delay(1000);
-}
+setInterval(updateLCD, 1000);
 
 async function updateLCD() {
     getStatus();
-    console.log(status);
-
-    /*
-    if (!status)
-    {
-        console.log("No status");
+    if (status) {
+        lcd.printLineSync(0, 'Uptime: ');
+        lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
+    } 
+    else {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
-        delay(1000);
-        return;
     }
-
-    console.log("Status received");
-    //parse status into displayable fields
-    let statusDisplay = {
-        Uptime: new Date(status.uptime).toISOString().slice(11,19)
-    }
-
-    for (property in statusDisplay) {
-        console.log(property);
-        console.log(statusDisplay[property]);
-        lcd.printLineSync(0, property + ': ');
-        lcd.printLineSync(1, statusDisplay[property]);
-        delay(1000);
-    }
-    */
+    //TODO: increment clock, display on LCD
 }
-
 
 /*
 function postStatus() {
@@ -89,7 +64,7 @@ function postStatus() {
 }
 */
 
-async function getStatus() {
+function getStatus() {
     http.get(url, (res) => {
         let data = '';
 
@@ -101,7 +76,7 @@ async function getStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             status = JSON.parse(data);
-            console.log("Status received: " + data);
+            //console.log("Status received: " + data);
         });
 
         }).on("error", (err) => {
