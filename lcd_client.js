@@ -23,12 +23,20 @@ async function updateLCD() {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
+
         await delay(1000);
         updateLCD();
     } 
-    
-    lcd.printLineSync(0, 'Uptime: ');
-    lcd.printLineSync(1, new Date(status.uptime).toISOString().slice(11,19));
+
+    let parsedStatus = {
+        Status: "Online",
+        Uptime: new Date(status.uptime).toISOString().slice(11,19)
+    }
+
+    for (property in parsedStatus) {
+        lcd.printLineSync(0, property + ': ');
+        lcd.printLineSync(1, parsedStatus[property]);
+    }
 
     await delay(1000);
     updateLCD();
