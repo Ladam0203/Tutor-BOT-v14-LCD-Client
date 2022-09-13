@@ -30,7 +30,8 @@ async function updateLCD() {
 
     let parsedStatus = {
         Status: "Online",
-        Uptime: new Date(status.uptime).toISOString().slice(11,19)
+        Uptime: new Date(status.uptime).toISOString().slice(11,19),
+        Exceptions: status.exceptions
     }
 
     for (property in parsedStatus) {
