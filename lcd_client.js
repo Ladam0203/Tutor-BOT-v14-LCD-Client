@@ -17,7 +17,7 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
-    getStatus();
+    await getStatus();
     console.log("2. Got status:" + status);
 
     if (!status) {
@@ -27,8 +27,8 @@ async function updateLCD() { //TODO: handle disconnect from the server better
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
 
-        await delay(1000);
-        updateLCD();
+        //await delay(1000);
+        await updateLCD();
     } 
 
     console.log("3. Status request succesful, received: " + status)
@@ -50,7 +50,7 @@ async function updateLCD() { //TODO: handle disconnect from the server better
         await delay(3000);
     }
 
-    updateLCD();
+    await updateLCD();
 }
 
 /*
@@ -91,7 +91,7 @@ function postStatus() {
 }
 */
 
-function getStatus() {
+async function getStatus() {
     http.get(url, (res) => {
         let data = '';
 
