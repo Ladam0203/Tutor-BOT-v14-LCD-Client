@@ -68,7 +68,7 @@ async function getStatus() {
         });
 
         // called when the complete response is received.
-        res.on('end', () => {
+        res.on('end', async () => {
             status = JSON.parse(data);
             console.log("1. Status received: " + status);
             console.log("2. Got status:" + status);
@@ -80,7 +80,7 @@ async function getStatus() {
                 lcd.printLineSync(0, 'Status: ');
                 lcd.printLineSync(1, "Offline");
 
-                setTimeout(updateLCD(), 1000);
+                await delay(1000);
             } 
 
             console.log("3. Status request succesful, received: " + status)
@@ -99,7 +99,8 @@ async function getStatus() {
                 lcd.clearSync();
                 lcd.printLineSync(0, property + ': ');
                 lcd.printLineSync(1, parsedStatus[property]);
-                setTimeout(() => {}, 1000);
+
+                await delay(1000);
             }
 
             updateLCD();
