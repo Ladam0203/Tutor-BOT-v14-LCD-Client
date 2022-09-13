@@ -17,40 +17,41 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
-    await getStatus();
-    console.log("Got status:" + status);
+    await getStatus().then(async () => {
+        console.log("Got status:" + status);
 
-    if (!status) {
-        console.log("Status request failed, received: " + status)
-
-        lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
-        lcd.printLineSync(1, "Offline");
-
-        await delay(1000);
+        if (!status) {
+            console.log("Status request failed, received: " + status)
+    
+            lcd.clearSync();
+            lcd.printLineSync(0, 'Status: ');
+            lcd.printLineSync(1, "Offline");
+    
+            await delay(1000);
+            updateLCD();
+        } 
+    
+        console.log("Status request succesful, received: " + status)
+    
+        console.log("Parsing status object...")
+    
+        let parsedStatus = {
+            Status: "Online",
+            Uptime: new Date(status.uptime).toISOString().slice(11,19),
+            Exceptions: status.exceptions
+        }
+    
+        console.log("Displaying status object...")
+    
+        for (property in parsedStatus) {
+            lcd.clearSync();
+            lcd.printLineSync(0, property + ': ');
+            lcd.printLineSync(1, parsedStatus[property]);
+            await delay(3000);
+        }
+    
         updateLCD();
-    } 
-
-    console.log("Status request succesful, received: " + status)
-
-    console.log("Parsing status object...")
-
-    let parsedStatus = {
-        Status: "Online",
-        Uptime: new Date(status.uptime).toISOString().slice(11,19),
-        Exceptions: status.exceptions
-    }
-
-    console.log("Displaying status object...")
-
-    for (property in parsedStatus) {
-        lcd.clearSync();
-        lcd.printLineSync(0, property + ': ');
-        lcd.printLineSync(1, parsedStatus[property]);
-        await delay(3000);
-    }
-
-    updateLCD();
+    });
 }
 
 /*
