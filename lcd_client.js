@@ -33,11 +33,15 @@ async function updateLCD() { //TODO: handle disconnect from the server better
 
     console.log("Status request succesful, received: " + status)
 
+    console.log("Parsing status object...")
+
     let parsedStatus = {
         Status: "Online",
         Uptime: new Date(status.uptime).toISOString().slice(11,19),
         Exceptions: status.exceptions
     }
+
+    console.log("Displaying status object...")
 
     for (property in parsedStatus) {
         lcd.clearSync();
