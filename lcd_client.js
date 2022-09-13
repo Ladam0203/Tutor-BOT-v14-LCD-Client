@@ -19,7 +19,7 @@ updateLCD();
 async function updateLCD() {
     getStatus();
 
-    if (status == null) {
+    if (!status) {
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
@@ -99,6 +99,6 @@ function getStatus() {
 
         }).on("error", (err) => {
             console.log("Error: ", err.message);
-            status = null;
+            status = undefined;
         });
 }
