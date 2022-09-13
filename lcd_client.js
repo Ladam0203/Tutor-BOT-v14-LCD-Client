@@ -16,41 +16,42 @@ lcd.printLineSync(1, "Requesting...");
 
 updateLCD();
 
-async function updateLCD() { //TODO: handle disconnect from the server better
-    await getStatus();
-    console.log("2. Got status:" + status);
+function updateLCD() { //TODO: handle disconnect from the server better
+    getStatus().then(() => {
+        console.log("2. Got status:" + status);
 
-    if (!status) {
-        console.log("3. Status request failed, received: " + status)
-
-        lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
-        lcd.printLineSync(1, "Offline");
-
-        //await delay(1000);
-        await updateLCD();
-    } 
-
-    console.log("3. Status request succesful, received: " + status)
-
-    console.log("4. Parsing status object...")
-
-    let parsedStatus = {
-        Status: "Online",
-        Uptime: new Date(status.uptime).toISOString().slice(11,19),
-        Exceptions: status.exceptions
-    }
-
-    console.log("5. Displaying status object...")
-
-    for (property in parsedStatus) {
-        lcd.clearSync();
-        lcd.printLineSync(0, property + ': ');
-        lcd.printLineSync(1, parsedStatus[property]);
-        await delay(3000);
-    }
-
-    await updateLCD();
+        if (!status) {
+            console.log("3. Status request failed, received: " + status)
+    
+            lcd.clearSync();
+            lcd.printLineSync(0, 'Status: ');
+            lcd.printLineSync(1, "Offline");
+    
+            //await delay(1000);
+            updateLCD();
+        } 
+    
+        console.log("3. Status request succesful, received: " + status)
+    
+        console.log("4. Parsing status object...")
+    
+        let parsedStatus = {
+            Status: "Online",
+            Uptime: new Date(status.uptime).toISOString().slice(11,19),
+            Exceptions: status.exceptions
+        }
+    
+        console.log("5. Displaying status object...")
+    
+        for (property in parsedStatus) {
+            lcd.clearSync();
+            lcd.printLineSync(0, property + ': ');
+            lcd.printLineSync(1, parsedStatus[property]);
+            //await delay(3000);
+        }
+    
+        updateLCD();
+    });
 }
 
 /*
