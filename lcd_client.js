@@ -18,10 +18,10 @@ updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
     await getStatus();
-    console.log("Got status:" + status);
+    console.log("2. Got status:" + status);
 
     if (!status) {
-        console.log("Status request failed, received: " + status)
+        console.log("3. Status request failed, received: " + status)
 
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
@@ -31,9 +31,9 @@ async function updateLCD() { //TODO: handle disconnect from the server better
         updateLCD();
     } 
 
-    console.log("Status request succesful, received: " + status)
+    console.log("3. Status request succesful, received: " + status)
 
-    console.log("Parsing status object...")
+    console.log("4. Parsing status object...")
 
     let parsedStatus = {
         Status: "Online",
@@ -41,7 +41,7 @@ async function updateLCD() { //TODO: handle disconnect from the server better
         Exceptions: status.exceptions
     }
 
-    console.log("Displaying status object...")
+    console.log("5. Displaying status object...")
 
     for (property in parsedStatus) {
         lcd.clearSync();
@@ -103,7 +103,7 @@ async function getStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             status = JSON.parse(data);
-            console.log("Status received: " + data);
+            console.log("1. Status received: " + data);
         });
 
         }).on("error", (err) => {
