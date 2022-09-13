@@ -17,7 +17,7 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 function updateLCD() { //TODO: handle disconnect from the server better
-    getStatus().then(() => {
+    getStatus().finally(() => {
         console.log("2. Got status:" + status);
 
         if (!status) {
