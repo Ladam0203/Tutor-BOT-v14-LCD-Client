@@ -18,9 +18,11 @@ updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
     await getStatus();
-    console.log(status);
+    console.log("Got status:" + status);
 
     if (!status) {
+        console.log("Status request failed, received: " + status)
+
         lcd.clearSync();
         lcd.printLineSync(0, 'Status: ');
         lcd.printLineSync(1, "Offline");
@@ -28,6 +30,8 @@ async function updateLCD() { //TODO: handle disconnect from the server better
         await delay(1000);
         updateLCD();
     } 
+
+    console.log("Status request succesful, received: " + status)
 
     let parsedStatus = {
         Status: "Online",
@@ -95,7 +99,7 @@ async function getStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             status = JSON.parse(data);
-            //console.log("Status received: " + data);
+            console.log("Status received: " + data);
         });
 
         }).on("error", (err) => {
