@@ -16,42 +16,41 @@ lcd.printLineSync(1, "Requesting...");
 
 updateLCD();
 
-function updateLCD() { //TODO: handle disconnect from the server better
-    getStatus().finally(() => {
-        console.log("2. Got status:" + status);
+async function updateLCD() { //TODO: handle disconnect from the server better
+    await getStatus();
+    console.log("Got status:" + status);
 
-        if (!status) {
-            console.log("3. Status request failed, received: " + status)
-    
-            lcd.clearSync();
-            lcd.printLineSync(0, 'Status: ');
-            lcd.printLineSync(1, "Offline");
-    
-            //await delay(1000);
-            updateLCD();
-        } 
-    
-        console.log("3. Status request succesful, received: " + status)
-    
-        console.log("4. Parsing status object...")
-    
-        let parsedStatus = {
-            Status: "Online",
-            Uptime: new Date(status.uptime).toISOString().slice(11,19),
-            Exceptions: status.exceptions
-        }
-    
-        console.log("5. Displaying status object...")
-    
-        for (property in parsedStatus) {
-            lcd.clearSync();
-            lcd.printLineSync(0, property + ': ');
-            lcd.printLineSync(1, parsedStatus[property]);
-            //await delay(3000);
-        }
-    
+    if (!status) {
+        console.log("Status request failed, received: " + status)
+
+        lcd.clearSync();
+        lcd.printLineSync(0, 'Status: ');
+        lcd.printLineSync(1, "Offline");
+
+        await delay(1000);
         updateLCD();
-    });
+    } 
+
+    console.log("Status request succesful, received: " + status)
+
+    console.log("Parsing status object...")
+
+    let parsedStatus = {
+        Status: "Online",
+        Uptime: new Date(status.uptime).toISOString().slice(11,19),
+        Exceptions: status.exceptions
+    }
+
+    console.log("Displaying status object...")
+
+    for (property in parsedStatus) {
+        lcd.clearSync();
+        lcd.printLineSync(0, property + ': ');
+        lcd.printLineSync(1, parsedStatus[property]);
+        await delay(3000);
+    }
+
+    updateLCD();
 }
 
 /*
@@ -93,7 +92,7 @@ function postStatus() {
 */
 
 async function getStatus() {
-    return http.get(url, (res) => {
+    http.get(url, (res) => {
         let data = '';
 
         // called when a data chunk is received.
@@ -104,7 +103,7 @@ async function getStatus() {
         // called when the complete response is received.
         res.on('end', () => {
             status = JSON.parse(data);
-            console.log("1. Status received: " + data);
+            console.log("Status received: " + data);
         });
 
         }).on("error", (err) => {
