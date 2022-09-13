@@ -18,6 +18,7 @@ updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
     getStatus();
+    console.log(status);
 
     if (!status) {
         lcd.clearSync();
