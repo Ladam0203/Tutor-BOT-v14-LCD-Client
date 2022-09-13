@@ -17,40 +17,7 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
-    status = await getStatus();
-    console.log("2. Got status:" + status);
-
-    if (!status) {
-        console.log("3. Status request failed, received: " + status)
-
-        lcd.clearSync();
-        lcd.printLineSync(0, 'Status: ');
-        lcd.printLineSync(1, "Offline");
-
-        await delay(1000);
-        updateLCD();
-    } 
-
-    console.log("3. Status request succesful, received: " + status)
-
-    console.log("4. Parsing status object...")
-
-    let parsedStatus = {
-        Status: "Online",
-        Uptime: new Date(status.uptime).toISOString().slice(11,19),
-        Exceptions: status.exceptions
-    }
-
-    console.log("5. Displaying status object...")
-
-    for (property in parsedStatus) {
-        lcd.clearSync();
-        lcd.printLineSync(0, property + ': ');
-        lcd.printLineSync(1, parsedStatus[property]);
-        await delay(3000);
-    }
-
-    updateLCD();
+    getStatus();
 }
 
 /*
@@ -92,8 +59,7 @@ function postStatus() {
 */
 
 async function getStatus() {
-    let r;
-     http.get(url, (res) => {
+    http.get(url, (res) => {
         let data = '';
 
         // called when a data chunk is received.
@@ -103,14 +69,45 @@ async function getStatus() {
 
         // called when the complete response is received.
         res.on('end', () => {
-            r = JSON.parse(data);
-           // status = JSON.parse(data);
-            //console.log("1. Status received: " + data);
+            status = JSON.parse(data);
+            console.log("1. Status received: " + status);
+            console.log("2. Got status:" + status);
+
+            if (!status) {
+                console.log("3. Status request failed, received: " + status)
+
+                lcd.clearSync();
+                lcd.printLineSync(0, 'Status: ');
+                lcd.printLineSync(1, "Offline");
+
+                //await delay(1000);
+                updateLCD();
+            } 
+
+            console.log("3. Status request succesful, received: " + status)
+
+            console.log("4. Parsing status object...")
+
+            let parsedStatus = {
+                Status: "Online",
+                Uptime: new Date(status.uptime).toISOString().slice(11,19),
+                Exceptions: status.exceptions
+            }
+
+            console.log("5. Displaying status object...")
+
+            for (property in parsedStatus) {
+                lcd.clearSync();
+                lcd.printLineSync(0, property + ': ');
+                lcd.printLineSync(1, parsedStatus[property]);
+                //await delay(3000);
+            }
+
+            updateLCD();
         });
 
         }).on("error", (err) => {
             console.log("Error: ", err.message);
             status = undefined;
         });
-    return r;
 }
