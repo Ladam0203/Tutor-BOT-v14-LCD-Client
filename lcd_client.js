@@ -92,7 +92,7 @@ function postStatus() {
 */
 
 async function getStatus() {
-    http.get(url, (res) => {
+    return http.get(url, (res) => {
         let data = '';
 
         // called when a data chunk is received.
