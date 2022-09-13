@@ -80,8 +80,7 @@ async function getStatus() {
                 lcd.printLineSync(0, 'Status: ');
                 lcd.printLineSync(1, "Offline");
 
-                //await delay(1000);
-                updateLCD();
+                setTimeout(updateLCD(), 1000);
             } 
 
             console.log("3. Status request succesful, received: " + status)
@@ -100,7 +99,7 @@ async function getStatus() {
                 lcd.clearSync();
                 lcd.printLineSync(0, property + ': ');
                 lcd.printLineSync(1, parsedStatus[property]);
-                //await delay(3000);
+                setTimeout(() => {}, 1000);
             }
 
             updateLCD();
