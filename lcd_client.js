@@ -16,7 +16,7 @@ lcd.printLineSync(1, "Requesting...");
 
 updateLCD();
 
-async function updateLCD() {
+async function updateLCD() { //TODO: handle disconnect from the server better
     getStatus();
 
     if (!status) {
