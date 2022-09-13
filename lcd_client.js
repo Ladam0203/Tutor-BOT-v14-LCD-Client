@@ -17,7 +17,7 @@ lcd.printLineSync(1, "Requesting...");
 updateLCD();
 
 async function updateLCD() { //TODO: handle disconnect from the server better
-    await getStatus();
+    status = await getStatus();
     console.log("Got status:" + status);
 
     if (!status) {
@@ -92,7 +92,8 @@ function postStatus() {
 */
 
 async function getStatus() {
-    return http.get(url, (res) => {
+    let status = undefined;
+    http.get(url, (res) => {
         let data = '';
 
         // called when a data chunk is received.
@@ -108,6 +109,6 @@ async function getStatus() {
 
         }).on("error", (err) => {
             console.log("Error: ", err.message);
-            status = undefined;
         });
+    return status;
 }
