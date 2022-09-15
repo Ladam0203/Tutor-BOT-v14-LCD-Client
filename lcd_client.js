@@ -101,7 +101,7 @@ async function getStatus() {
                 lcd.printLineSync(0, property + ': ');
                 lcd.printLineSync(1, parsedStatus[property]);
 
-                await delay(1000);
+                await delay(2000);
             }
 
             updateLCD();
