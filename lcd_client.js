@@ -90,6 +90,7 @@ async function getStatus() {
             let parsedStatus = {
                 Status: "Online",
                 Uptime: new Date(status.uptime).toISOString().slice(11,19),
+                Ping: status.ping + " ms",
                 Exceptions: status.exceptions
             }
 
