@@ -1,3 +1,6 @@
+//TODO: exit shuts down lcd screen
+
+const { Console } = require('console');
 const http = require('http')
 const url = 'http://localhost:80/';
 
@@ -112,3 +115,10 @@ async function getStatus() {
             status = undefined;
         });
 }
+
+process.on('SIGTERM', () => {
+    console.log("Turning LCD off...")
+    lcd.noDisplay();
+    console.log("LCD: OFF")
+    process.exit(0);
+  });
