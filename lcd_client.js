@@ -116,12 +116,10 @@ async function getStatus() {
         });
 }
 
-/*
 process.on('SIGINT', () => {
     turnOffLCD();
     process.exit(0);
   });
-*/
 
 process.on('SIGTERM', () => {
     turnOffLCD();
