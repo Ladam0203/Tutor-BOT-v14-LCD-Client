@@ -128,6 +128,6 @@ process.on('SIGTERM', () => {
 
 async function turnOffLCD() {
     console.log("Turning LCD off...")
-    LCD.noDisplay();
+    lcd.noDisplay();
     console.log("LCD: OFF")
 }
