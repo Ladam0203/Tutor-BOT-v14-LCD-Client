@@ -116,9 +116,19 @@ async function getStatus() {
         });
 }
 
+process.on('SIGINT', () => {
+    turnOffLCD();
+    process.exit(0);
+  });
+
+
 process.on('SIGTERM', () => {
+    turnOffLCD();
+    process.exit(0);
+  });
+
+function turnOffLCD() {
     console.log("Turning LCD off...")
     lcd.noDisplay();
     console.log("LCD: OFF")
-    process.exit(0);
-  });
+}
