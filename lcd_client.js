@@ -126,7 +126,7 @@ process.on('SIGTERM', () => {
     process.exit(0);
   });
 
-async function turnOffLCD() {
+function turnOffLCD() {
     console.log("Turning LCD off...")
     lcd.noDisplay();
     console.log("LCD: OFF")
